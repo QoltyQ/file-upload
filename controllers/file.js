@@ -3,7 +3,6 @@ const File = require("../models/file");
 
 const uploadFile = async (req, res) => {
   const file = req.file;
-  console.log(file);
   const newFile = await File.create(file);
   res.status(201).send(newFile);
 };
