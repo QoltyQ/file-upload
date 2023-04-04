@@ -17,7 +17,7 @@ MySQL 5.7 or higher
 ## Installation
 
 Clone the repository using git clone.
-Install dependencies using npm install.
+Install dependencies using `npm install`.
 Create a .env file and configure your database connection information using the following format:
 
 ## makefile
