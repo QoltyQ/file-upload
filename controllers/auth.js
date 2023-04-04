@@ -36,34 +36,29 @@ const signup = async (req, res) => {
 };
 
 const login = async (req, res) => {
-  const { login, password } = req.body;
-  User.findOne({ where: { login } })
-    .then((user) => {
-      if (!user) {
-        return res.status(401).send("Invalid username or password");
-      }
+  try {
+    const { login, password } = req.body;
+    const user = await User.findOne({ where: { login } });
 
-      bcrypt.compare(password, user.password, (err, isMatch) => {
-        if (err) {
-          console.log(err);
-          return res.status(500).send("An error occurred");
-        }
+    if (!user) {
+      return res.status(401).send("Invalid username or password");
+    }
 
-        if (!isMatch) {
-          return res.status(401).send("Invalid username or password");
-        }
+    const isMatch = await bcrypt.compare(password, user.password);
 
-        const accessToken = jwt.sign(user.dataValues, process.env.JWT_SECRET, {
-          expiresIn: "10m",
-        });
+    if (!isMatch) {
+      return res.status(401).send("Invalid username or password");
+    }
 
-        res.send({ accessToken });
-      });
-    })
-    .catch((err) => {
-      console.log(err);
-      res.status(500).send("An error occurred");
+    const accessToken = jwt.sign(user.dataValues, process.env.JWT_SECRET, {
+      expiresIn: "10m",
     });
+
+    res.status(200).send({ accessToken });
+  } catch (error) {
+    console.log(error);
+    res.status(500).send("An error occurred");
+  }
 };
 
 const refreshToken = async (req, res) => {
