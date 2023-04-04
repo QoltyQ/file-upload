@@ -21,10 +21,10 @@ Create a .env file and configure your database connection information using the 
 
 makefile
 
-DB_HOST=<database_host>
-DB_USER=<database_username>
-DB_PASSWORD=<database_password>
-DB_NAME=<database_name>
+DB_HOST=localhost
+DB_USER="erp"
+DB_PASSWORD="root"
+DB_NAME=test
 
 Run the app using npm start.
 
